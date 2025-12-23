@@ -229,6 +229,22 @@ export const appRouter = router({
         return await db.getUserActivityStats(input.userId);
       }),
   }),
+
+  auditLogs: router({
+    // Get audit logs for a specific enquiry
+    byEnquiry: protectedProcedure
+      .input(z.object({ enquiryId: z.number() }))
+      .query(async ({ input }) => {
+        return await db.getAuditLogsByEnquiry(input.enquiryId);
+      }),
+
+    // Get all audit logs with pagination
+    list: protectedProcedure
+      .input(z.object({ limit: z.number().optional(), offset: z.number().optional() }))
+      .query(async ({ input }) => {
+        return await db.getAllAuditLogs(input.limit, input.offset);
+      }),
+  }),
 });
 
 export type AppRouter = typeof appRouter;

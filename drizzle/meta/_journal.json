@@ -22,6 +22,20 @@
       "when": 1766476581335,
       "tag": "0002_breezy_princess_powerful",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1766486900960,
+      "tag": "0003_familiar_magneto",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "5",
+      "when": 1766487137761,
+      "tag": "0004_absent_susan_delgado",
+      "breakpoints": true
     }
   ]
 }

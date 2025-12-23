@@ -11,6 +11,8 @@ export const users = mysqlTable("users", {
   loginMethod: varchar("loginMethod", { length: 64 }),
   role: mysqlEnum("role", ["user", "admin"]).default("user").notNull(),
   status: mysqlEnum("status", ["active", "inactive", "suspended"]).default("active").notNull(),
+  notificationMethod: mysqlEnum("notificationMethod", ["manus", "email", "both"]).default("manus").notNull(),
+  emailNotifications: mysqlEnum("emailNotifications", ["enabled", "disabled"]).default("enabled").notNull(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
   lastSignedIn: timestamp("lastSignedIn").defaultNow().notNull(),
@@ -131,3 +133,21 @@ export const payments = mysqlTable("payments", {
 
 export type Payment = typeof payments.$inferSelect;
 export type InsertPayment = typeof payments.$inferInsert;
+
+/**
+ * Audit log table - tracks all changes to enquiries for compliance and accountability
+ */
+export const auditLogs = mysqlTable("audit_logs", {
+  id: int("id").autoincrement().primaryKey(),
+  enquiryId: int("enquiryId").notNull().references(() => enquiries.id, { onDelete: "cascade" }),
+  userId: int("userId").notNull().references(() => users.id),
+  action: mysqlEnum("action", ["created", "updated", "deleted", "status_changed", "assigned"]).notNull(),
+  fieldName: varchar("fieldName", { length: 100 }),
+  oldValue: text("oldValue"),
+  newValue: text("newValue"),
+  description: text("description"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type AuditLog = typeof auditLogs.$inferSelect;
+export type InsertAuditLog = typeof auditLogs.$inferInsert;

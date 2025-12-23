@@ -1,6 +1,6 @@
 import { eq, desc, sql, and, gte, lte, count } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
-import { InsertUser, users, enquiries, InsertEnquiry, payments, InsertPayment, Enquiry } from "../drizzle/schema";
+import { InsertUser, users, enquiries, InsertEnquiry, payments, InsertPayment, Enquiry, auditLogs } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
 let _db: ReturnType<typeof drizzle> | null = null;
@@ -169,6 +169,15 @@ export async function createEnquiry(data: Record<string, any>, userId: number) {
   // Get the last inserted ID from the database
   const [idResult] = await db.select({ id: sql<number>`LAST_INSERT_ID()` }).from(enquiries).limit(1);
   const insertedId = idResult?.id || 0;
+
+  // Create audit log
+  await createAuditLog({
+    enquiryId: insertedId,
+    userId,
+    action: "created",
+    description: `Enquiry ${enquiryId} created for client ${data.clientName}`,
+  });
+
   return { id: insertedId, enquiryId };
 }
 
@@ -440,4 +449,83 @@ export async function getUserActivityStats(userId: number) {
   return {
     enquiriesCreated: enquiryCount[0]?.count || 0,
   };
+}
+
+// ============ AUDIT LOG FUNCTIONS ============
+
+/**
+ * Create an audit log entry
+ */
+export async function createAuditLog(data: {
+  enquiryId: number;
+  userId: number;
+  action: "created" | "updated" | "deleted" | "status_changed" | "assigned";
+  fieldName?: string;
+  oldValue?: string;
+  newValue?: string;
+  description?: string;
+}) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+
+  await db.insert(auditLogs).values(data);
+}
+
+/**
+ * Get audit logs for an enquiry
+ */
+export async function getAuditLogsByEnquiry(enquiryId: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+
+  const logs = await db
+    .select({
+      id: auditLogs.id,
+      action: auditLogs.action,
+      fieldName: auditLogs.fieldName,
+      oldValue: auditLogs.oldValue,
+      newValue: auditLogs.newValue,
+      description: auditLogs.description,
+      createdAt: auditLogs.createdAt,
+      userName: users.name,
+      userEmail: users.email,
+    })
+    .from(auditLogs)
+    .leftJoin(users, eq(auditLogs.userId, users.id))
+    .where(eq(auditLogs.enquiryId, enquiryId))
+    .orderBy(desc(auditLogs.createdAt));
+
+  return logs;
+}
+
+/**
+ * Get all audit logs with pagination
+ */
+export async function getAllAuditLogs(limit: number = 100, offset: number = 0) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+
+  const logs = await db
+    .select({
+      id: auditLogs.id,
+      enquiryId: auditLogs.enquiryId,
+      action: auditLogs.action,
+      fieldName: auditLogs.fieldName,
+      oldValue: auditLogs.oldValue,
+      newValue: auditLogs.newValue,
+      description: auditLogs.description,
+      createdAt: auditLogs.createdAt,
+      userName: users.name,
+      userEmail: users.email,
+      enquiryCode: enquiries.enquiryId,
+      clientName: enquiries.clientName,
+    })
+    .from(auditLogs)
+    .leftJoin(users, eq(auditLogs.userId, users.id))
+    .leftJoin(enquiries, eq(auditLogs.enquiryId, enquiries.id))
+    .orderBy(desc(auditLogs.createdAt))
+    .limit(limit)
+    .offset(offset);
+
+  return logs;
 }

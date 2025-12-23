@@ -1,0 +1,2 @@
+ALTER TABLE `users` ADD `notificationMethod` enum('manus','email','both') DEFAULT 'manus' NOT NULL;--> statement-breakpoint
+ALTER TABLE `users` ADD `emailNotifications` enum('enabled','disabled') DEFAULT 'enabled' NOT NULL;

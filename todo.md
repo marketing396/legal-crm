@@ -50,3 +50,37 @@
 - [x] Display email addresses
 - [x] Show account status
 - [x] Add role change functionality (admin only)
+
+## Email Notifications for Lawyer Assignments
+
+- [x] Add email notification preferences to user schema
+- [x] Create email template for lawyer assignment notifications
+- [x] Implement email sending service integration (both Manus and third-party)
+- [ ] Add notification settings page for users
+- [ ] Trigger email when lawyer is assigned to enquiry
+- [ ] Add email notification history tracking
+
+## Advanced Filtering & Bulk Operations
+
+- [x] Add date range filter to Enquiry Log
+- [x] Add status filter to Enquiry Log
+- [ ] Add lawyer filter to Enquiry Log
+- [x] Add service type filter to Enquiry Log
+- [x] Add urgency level filter to Enquiry Log
+- [x] Implement bulk select functionality
+- [x] Add bulk delete operation
+- [ ] Add bulk status update operation
+- [ ] Add bulk lawyer assignment operation
+- [x] Add export filtered results to Excel/CSV
+
+## Activity Audit Log
+
+- [x] Create audit log database schema
+- [x] Track enquiry creation events
+- [ ] Track enquiry modification events
+- [ ] Track enquiry deletion events
+- [x] Track user who made changes
+- [ ] Display audit log in enquiry details
+- [x] Add audit log search and filtering
+- [x] Show change history with timestamps
+- [ ] Add audit log export functionality
