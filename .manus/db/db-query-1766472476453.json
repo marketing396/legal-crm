@@ -1,0 +1,19 @@
+{
+  "query": "SELECT enquiryId, clientName, email, phoneNumber, serviceRequested, currentStatus, createdAt FROM enquiries WHERE enquiryId = 'ENQ-DEMO-001';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3zGKJHPEnWSAxQz.e16bcdefec84 --database oSHGENCt9oSbVYVXjViKWE --execute SELECT enquiryId, clientName, email, phoneNumber, serviceRequested, currentStatus, createdAt FROM enquiries WHERE enquiryId = 'ENQ-DEMO-001';",
+  "rows": [
+    {
+      "enquiryId": "ENQ-DEMO-001",
+      "clientName": "Demo Client - Ghazzawi Law Firm",
+      "email": "demo@ghazzawilawfirm.com",
+      "phoneNumber": "+971-50-123-4567",
+      "serviceRequested": "Corporate / M&A",
+      "currentStatus": "Pending",
+      "createdAt": "2025-12-23 06:47:49"
+    }
+  ],
+  "messages": [],
+  "stdout": "enquiryId\tclientName\temail\tphoneNumber\tserviceRequested\tcurrentStatus\tcreatedAt\nENQ-DEMO-001\tDemo Client - Ghazzawi Law Firm\tdemo@ghazzawilawfirm.com\t+971-50-123-4567\tCorporate / M&A\tPending\t2025-12-23 06:47:49\n",
+  "stderr": "",
+  "execution_time_ms": 1644
+}

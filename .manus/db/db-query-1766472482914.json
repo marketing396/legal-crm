@@ -1,0 +1,15 @@
+{
+  "query": "SELECT COUNT(*) as total_records, MIN(createdAt) as oldest_record, MAX(createdAt) as newest_record FROM enquiries;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3zGKJHPEnWSAxQz.e16bcdefec84 --database oSHGENCt9oSbVYVXjViKWE --execute SELECT COUNT(*) as total_records, MIN(createdAt) as oldest_record, MAX(createdAt) as newest_record FROM enquiries;",
+  "rows": [
+    {
+      "total_records": "51",
+      "oldest_record": "2025-12-22 14:50:04",
+      "newest_record": "2025-12-23 06:47:49"
+    }
+  ],
+  "messages": [],
+  "stdout": "total_records\toldest_record\tnewest_record\n51\t2025-12-22 14:50:04\t2025-12-23 06:47:49\n",
+  "stderr": "",
+  "execution_time_ms": 1489
+}

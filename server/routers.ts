@@ -193,6 +193,42 @@ export const appRouter = router({
         return await db.updatePayment(id, data);
       }),
   }),
+
+  users: router({
+    // Get all users
+    list: protectedProcedure.query(async () => {
+      return await db.getAllUsers();
+    }),
+
+    // Update user role (admin only)
+    updateRole: protectedProcedure
+      .input(z.object({ userId: z.number(), role: z.enum(["user", "admin"]) }))
+      .mutation(async ({ input, ctx }) => {
+        if (ctx.user.role !== "admin") {
+          throw new Error("Unauthorized: Admin access required");
+        }
+        await db.updateUserRole(input.userId, input.role);
+        return { success: true };
+      }),
+
+    // Update user status (admin only)
+    updateStatus: protectedProcedure
+      .input(z.object({ userId: z.number(), status: z.enum(["active", "inactive", "suspended"]) }))
+      .mutation(async ({ input, ctx }) => {
+        if (ctx.user.role !== "admin") {
+          throw new Error("Unauthorized: Admin access required");
+        }
+        await db.updateUserStatus(input.userId, input.status);
+        return { success: true };
+      }),
+
+    // Get user activity stats
+    activityStats: protectedProcedure
+      .input(z.object({ userId: z.number() }))
+      .query(async ({ input }) => {
+        return await db.getUserActivityStats(input.userId);
+      }),
+  }),
 });
 
 export type AppRouter = typeof appRouter;

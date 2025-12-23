@@ -29,3 +29,24 @@
 - [x] Add role-based access control
 - [x] Test all features
 - [x] Create user documentation
+
+## New Feature Requests
+
+- [ ] Email notification system for lawyer assignments
+- [ ] Admin database management interface
+- [ ] Bulk delete functionality for enquiries
+- [ ] Export client details to CSV/Excel
+- [ ] Database backup and restore functionality
+
+## User Management Dashboard (In Progress)
+
+- [x] Add user activity tracking to schema
+- [x] Create backend API for user management
+- [x] Build User Management dashboard page
+- [x] Display all registered users
+- [x] Show user roles (Admin/User)
+- [x] Display last login dates
+- [x] Show user activity metrics
+- [x] Display email addresses
+- [x] Show account status
+- [x] Add role change functionality (admin only)

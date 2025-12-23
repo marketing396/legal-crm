@@ -6,6 +6,7 @@ import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import DashboardLayout from "./components/DashboardLayout";
 import Home from "./pages/Home";
+import UserManagement from "./pages/UserManagement";
 import EnquiryList from "./pages/EnquiryList";
 import EnquiryForm from "./pages/EnquiryForm";
 import StatusTracker from "./pages/StatusTracker";
@@ -54,7 +55,10 @@ function Router() {
           <PipelineForecast />
         </DashboardLayout>
       </Route>
+      <Route path={"/"} component={Home} />
+      <Route path={"/user-management"} component={UserManagement} />
       <Route path={"/404"} component={NotFound} />
+      {/* Final fallback route */}
       <Route component={NotFound} />
     </Switch>
   );

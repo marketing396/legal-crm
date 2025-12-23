@@ -390,3 +390,54 @@ export async function getPipelineForecast() {
     weightedValue: Number(row.totalValue) * (weights[row.status || ''] || 0),
   }));
 }
+
+// ============ USER MANAGEMENT FUNCTIONS ============
+
+/**
+ * Get all users with activity information
+ */
+export async function getAllUsers() {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+
+  const allUsers = await db.select().from(users).orderBy(desc(users.lastSignedIn));
+  return allUsers;
+}
+
+/**
+ * Update user role
+ */
+export async function updateUserRole(userId: number, role: "user" | "admin") {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+
+  await db.update(users).set({ role }).where(eq(users.id, userId));
+}
+
+/**
+ * Update user status
+ */
+export async function updateUserStatus(userId: number, status: "active" | "inactive" | "suspended") {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+
+  await db.update(users).set({ status }).where(eq(users.id, userId));
+}
+
+/**
+ * Get user activity statistics
+ */
+export async function getUserActivityStats(userId: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+
+  // Count enquiries created by this user
+  const enquiryCount = await db
+    .select({ count: count() })
+    .from(enquiries)
+    .where(eq(enquiries.createdBy, userId));
+
+  return {
+    enquiriesCreated: enquiryCount[0]?.count || 0,
+  };
+}

@@ -1,0 +1,13 @@
+{
+  "query": "SELECT COUNT(*) as total_enquiries FROM enquiries;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3zGKJHPEnWSAxQz.e16bcdefec84 --database oSHGENCt9oSbVYVXjViKWE --execute SELECT COUNT(*) as total_enquiries FROM enquiries;",
+  "rows": [
+    {
+      "total_enquiries": "50"
+    }
+  ],
+  "messages": [],
+  "stdout": "total_enquiries\n50\n",
+  "stderr": "",
+  "execution_time_ms": 1535
+}

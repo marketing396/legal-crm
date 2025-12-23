@@ -1,0 +1,9 @@
+{
+  "query": "INSERT INTO enquiries (enquiryId, dateOfEnquiry, clientName, email, phoneNumber, serviceRequested, currentStatus, createdBy, createdAt, updatedAt) VALUES ('ENQ-DEMO-001', '2025-12-23', 'Demo Client - Ghazzawi Law Firm', 'demo@ghazzawilawfirm.com', '+971-50-123-4567', 'Corporate / M&A', 'Pending', 1, NOW(), NOW());",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3zGKJHPEnWSAxQz.e16bcdefec84 --database oSHGENCt9oSbVYVXjViKWE --execute INSERT INTO enquiries (enquiryId, dateOfEnquiry, clientName, email, phoneNumber, serviceRequested, currentStatus, createdBy, createdAt, updatedAt) VALUES ('ENQ-DEMO-001', '2025-12-23', 'Demo Client - Ghazzawi Law Firm', 'demo@ghazzawilawfirm.com', '+971-50-123-4567', 'Corporate / M&A', 'Pending', 1, NOW(), NOW());",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 3164
+}
