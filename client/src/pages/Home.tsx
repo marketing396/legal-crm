@@ -1,12 +1,9 @@
-import { useAuth } from "@/_core/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { getLoginUrl } from "@/const";
 import { BarChart3, FileText, DollarSign, TrendingUp, ArrowRight, Shield } from "lucide-react";
 import { Link } from "wouter";
 
 export default function Home() {
-  const { user, isAuthenticated } = useAuth();
 
   const features = [
     {
@@ -40,15 +37,9 @@ export default function Home() {
             <Shield className="h-8 w-8 text-blue-600" />
             <h1 className="text-2xl font-bold text-gray-900">Client Enquiry CRM</h1>
           </div>
-          {isAuthenticated ? (
-            <Link href="/enquiries">
-              <Button>Go to Dashboard</Button>
-            </Link>
-          ) : (
-            <Button asChild>
-              <a href={getLoginUrl()}>Sign In</a>
-            </Button>
-          )}
+          <Link href="/enquiries">
+            <Button>Go to Dashboard</Button>
+          </Link>
         </div>
       </header>
 
@@ -64,19 +55,11 @@ export default function Home() {
           Streamline your legal practice with automated ID generation, real-time dashboards, 
           and comprehensive analytics.
         </p>
-        {isAuthenticated ? (
-          <Link href="/enquiries">
-            <Button size="lg" className="text-lg px-8">
-              Open Dashboard <ArrowRight className="ml-2 h-5 w-5" />
-            </Button>
-          </Link>
-        ) : (
-          <Button size="lg" className="text-lg px-8" asChild>
-            <a href={getLoginUrl()}>
-              Get Started <ArrowRight className="ml-2 h-5 w-5" />
-            </a>
+        <Link href="/enquiries">
+          <Button size="lg" className="text-lg px-8">
+            Open Dashboard <ArrowRight className="ml-2 h-5 w-5" />
           </Button>
-        )}
+        </Link>
       </section>
 
       {/* Features Grid */}
