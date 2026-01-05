@@ -89,6 +89,41 @@ export async function getUserByOpenId(openId: string) {
   return result.length > 0 ? result[0] : undefined;
 }
 
+/**
+ * Get or create a default user for non-OAuth deployments
+ */
+export async function getOrCreateDefaultUser() {
+  const db = await getDb();
+  if (!db) {
+    console.warn("[Database] Cannot get default user: database not available");
+    return null;
+  }
+
+  const DEFAULT_OPEN_ID = "default-admin-user";
+
+  // Try to find existing default user
+  const existing = await db.select().from(users).where(eq(users.openId, DEFAULT_OPEN_ID)).limit(1);
+
+  if (existing.length > 0) {
+    return existing[0];
+  }
+
+  // Create default admin user
+  await db.insert(users).values({
+    openId: DEFAULT_OPEN_ID,
+    name: "Admin User",
+    email: "admin@legalcrm.local",
+    loginMethod: "default",
+    role: "admin",
+    status: "active",
+    lastSignedIn: new Date(),
+  });
+
+  // Fetch and return the created user
+  const created = await db.select().from(users).where(eq(users.openId, DEFAULT_OPEN_ID)).limit(1);
+  return created[0] || null;
+}
+
 // ============ ENQUIRY FUNCTIONS ============
 
 /**
